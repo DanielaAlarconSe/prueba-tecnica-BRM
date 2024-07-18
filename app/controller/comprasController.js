@@ -3,6 +3,7 @@ var models = require('../models/index');
 var Venta = models.venta;
 var Persona = models.persona;
 var DetalleVino = models.detalle_vino;
+var Vino = models.vino; // Assuming you have a model for vino
 
 class ComprasController {
     listaCompras(req, res) {
@@ -10,16 +11,16 @@ class ComprasController {
             include: [
                 {
                     model: Persona,
-                    as: 'persona', // Alias utilizado en la relación
-                    attributes: ['id', 'nombre', 'apellido', 'cedula'] // Atributos del cliente que deseas incluir
+                    as: 'persona', // Alias should match the one defined in Persona's associations
+                    attributes: ['id', 'nombre', 'apellido', 'cedula']
                 },
                 {
                     model: DetalleVino,
-                    as: 'detalle_vino', // Alias utilizado en la relación
+                    as: 'detalle_vino', // Alias should match the one defined in Venta's associations
                     include: [
                         {
-                            model: models.vino,
-                            as: 'vino',
+                            model: Vino,
+                            as: 'vino', // Ensure this alias is correct
                             attributes: ['nombre']
                         }
                     ]
@@ -27,12 +28,12 @@ class ComprasController {
             ]
         }).then(listaCompra => {
             if (listaCompra) {
-                res.render('administrador', {
+                res.render('usuario', {
                     titulo: 'Santos Licores | Compras',
-                    fragmento: 'fragments/frm_marca',
+                    fragmento: 'fragments/frm_compras',
                     listaCompra: listaCompra
                 });
-                console.log(listaCompra, 'AQUI LLEGA LA LISTA DE COMPRA')
+                console.log(listaCompra, 'AQUI LLEGA LA LISTA DE COMPRA');
             } else {
                 console.log(listaCompra.errors);
             }

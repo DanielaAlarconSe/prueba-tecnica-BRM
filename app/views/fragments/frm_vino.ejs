@@ -87,11 +87,12 @@
                             </select>
                         </div>
                     </div>
-                    <!-- <div class="col-md-6">
+                    <div class="col-md-6">
                         <div class="form-label-group">
-                            <select class="form-control" id="paisR" name="pais"></select>
+                            <input type="text" id="lote" name="lote" class="form-control" placeholder="Número de lote" required="required" autofocus="autofocus">
+                            <label for="lote">Número de lote</label>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -125,6 +126,7 @@
                         <th>Foto</th>
                         <th>Nombre</th>
                         <th>Tipo</th>
+                        <th>N° Lote</th>
                         <th>Marca</th>
                         <th>Fecha</th>
                         <th>Acción</th>
@@ -136,6 +138,7 @@
                         <th>Foto</th>
                         <th>Nombre</th>
                         <th>Tipo</th>
+                        <th>N° Lote</th>
                         <th>Marca</th>
                         <th>Fecha</th>
                         <th>Acción</th>
@@ -148,6 +151,7 @@
                         <td><img src="/img/<%=vino.foto%>" alt="" width="50"></td>
                         <td><%=vino.nombre%></td>
                         <td><%=vino.tipo%></td>
+                        <td><%=vino.lote%></td>
                         <td><%=vino.marca.nombre%></td>
                         <td><%=vino.fecha_creacion%></td>
                         <td>

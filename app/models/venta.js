@@ -31,7 +31,8 @@ module.exports = function (sequelize, Sequelize) {
 
     Venta.associate = function (models) {
         models.venta.hasMany(models.detalle_vino, {
-            foreignKey: 'id_venta'
+            foreignKey: 'id_venta',
+            as: 'detalle_vino' // This should match the alias in your query
         });
     };
 

@@ -27,6 +27,9 @@ module.exports = function (sequelize, Sequelize) {
         precio: {
             type: Sequelize.DOUBLE
         },
+        lote:{
+            type: Sequelize.STRING(30)
+        },
         foto: {
             type: Sequelize.STRING
         }

@@ -70,7 +70,7 @@ class VinoController {
                     tipo: req.body.tipo,
                     cantidad: req.body.cantidad,
                     precio: req.body.precio,
-                    pais: req.body.pais,
+                    lote: req.body.lote,
                     foto: "Vino.png",
                     id_marca: req.body.marca
                 };
@@ -93,7 +93,7 @@ class VinoController {
             tipo: req.body.tipo,
             cantidad: req.body.cantidad,
             precio: req.body.precio,
-            pais: req.body.pais,
+            lote: req.body.lote,
             id_marca: req.body.marca
         };
         Vino.update(modeloVino, { where: { external_id: req.body.external } }).then(newVino => {

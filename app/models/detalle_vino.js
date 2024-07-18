@@ -27,7 +27,8 @@ module.exports = function (sequelize, Sequelize) {
 
     DetalleVino.belongsTo(Venta, {
         foreignKey: 'id_venta',
-        constraints: false
+        constraints: false,
+        as: 'venta' // Ensure this alias is correct
     });
     DetalleVino.belongsTo(Vino, {
         foreignKey: 'id_vino',
