@@ -1,0 +1,6 @@
+Tema: Prueba Tienda de venta de productos online con NodeJS y Mysql
+Resumen:
+Producto Software que permite el registro de marcas, 
+productos mediante un panel administrador y en donde un usuario 
+puede acceder para comprar productos mediante pagos en linea, 
+generando la factura correspondiente del pedido.

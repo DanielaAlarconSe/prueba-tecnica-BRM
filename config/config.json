@@ -1,0 +1,19 @@
+{
+    "development": {
+        "username": "root",
+        "password": "Clarinetista1.",
+        "database": "brm",
+        "host": "localhost",
+        "port": "3307",
+        "dialect": "mysql",
+        "operatorsAliases": false
+    },
+    "staging": {
+        "username": "root",
+        "password": "Clarinetista1.",
+        "database": "brm",
+        "host": "localhost",
+        "port": "3307",
+        "dialect": "mysql"
+    }
+}
