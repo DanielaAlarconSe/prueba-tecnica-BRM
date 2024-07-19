@@ -31,6 +31,12 @@ app.use(flash(app));
 app.use(passport.initialize());//Inicializar modulo
 app.use(passport.session());//Guardar sesion
 
+// Middleware para pasar user a todas las vistas
+app.use((req, res, next) => {
+    res.locals.user = req.user; // Pasa el usuario a todas las vistas
+    next();
+});
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
