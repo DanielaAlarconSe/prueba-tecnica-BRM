@@ -88,6 +88,9 @@ router.post('/administracion/marca', auth, authorizeRoles(['Administrador']), ma
 /* POST Modificar Marca */
 router.post('/administracion/marcaModificar', marcaController.modificar);
 
+/* POST Eliminar Marca */
+router.post('/administracion/marcaEliminar', marcaController.eliminar);
+
 /* GET Página Foto */
 router.get('/administracion/vino/foto/:external', vinoController.verFoto);
 
@@ -103,6 +106,9 @@ router.post('/administracion/vino', auth, authorizeRoles(['Administrador']), vin
 
 /* POST Modificar Vino */
 router.post('/administracion/vinoModificar', auth, authorizeRoles(['Administrador']), vinoController.modificar);
+
+/* POST Eliminar Vino */
+router.post('/administracion/vinoEliminar', auth, authorizeRoles(['Administrador']), vinoController.eliminar);
 
 /* GET Agregar item al Carrito */
 router.get('/agregar:external_id', auth, authorizeRoles(['Usuario']), carritoController.cargarItem);

@@ -152,6 +152,22 @@ class VinoController {
             }
         });
     }
+
+    // Método Eliminar para completar el CRUD pero se aconseja el manejo de estados
+    eliminar(req, res) {
+        Marca.destroy({where: {external_id: req.body.external}}).then(deleted => {
+            if (deleted == 0) {
+                req.flash('info', 'No se encontró a eliminar.', false);
+            } else {
+                req.flash('info', 'Se eliminó con éxito.', false);
+            }
+            res.redirect('/administracion/vino');
+        }).catch(error => {
+            console.log(error);
+            req.flash('info', 'Ocurrió un error al intentar eliminar.', false);
+            res.redirect('/administracion/vino');
+        });
+    }
 }
 
 module.exports = VinoController;

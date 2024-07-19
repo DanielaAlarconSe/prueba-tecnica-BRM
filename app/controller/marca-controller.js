@@ -51,6 +51,24 @@ class MarcaController {
             res.redirect('/administracion/marca');
         });
     }
+
+    //Eliminar Marca --- Se crea método para completar CRUD pero es mala practica eliminar sin tener tabla auditoría y disparadores
+
+    eliminar(req, res) {
+        Marca.destroy({where: {external_id: req.body.external}}).then(deleted => {
+            if (deleted == 0) {
+                req.flash('info', 'No se encontró la marca a eliminar.', false);
+            } else {
+                req.flash('info', 'Se eliminó la marca con éxito.', false);
+            }
+            res.redirect('/administracion/marca');
+        }).catch(error => {
+            console.log(error);
+            req.flash('info', 'Ocurrió un error al intentar eliminar la marca.', false);
+            res.redirect('/administracion/marca');
+        });
+    }
+    
 }
 
 module.exports = MarcaController;
