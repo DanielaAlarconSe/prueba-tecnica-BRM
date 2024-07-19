@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualización de Compras</title>
+    <title>Historial de Compras</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -13,7 +13,7 @@
 <!-- Aquí puedes incluir tus alertas si es necesario -->
 
 <!-- Tabla -->
-<div class="card mb-3">
+<div class="card mb-3 mt-4">
     <div class="card-header">
         <i class="fas fa-shopping-cart"></i>
         Visualización de compras
@@ -24,7 +24,6 @@
                 <thead>
                     <tr>
                         <th>Fecha de compra</th>
-                        <th>Cliente</th>
                         <th>Producto</th>
                         <th>Cantidad</th>
                         <th>Precio total</th>
@@ -33,34 +32,32 @@
                 <tfoot>
                     <tr>
                         <th>Fecha de compra</th>
-                        <th>Cliente</th>
                         <th>Producto</th>
                         <th>Cantidad</th>
                         <th>Precio total</th>
                     </tr>
                 </tfoot>
                 <tbody><% listaCompra.forEach(compra => { %>
-                  <tr>
-                      <td><%= compra.fecha %></td>
-                      <td><%= compra.persona %></td>
-                      <td><%= compra.producto %></td>
-                      <td><%= compra.cantidad %></td>
-                      <td><%= compra.total %></td>
-                  </tr>
-              <% }) %></tbody>
+                    <tr>
+                        <td><%= compra.fecha %></td>
+                        <td><%= compra.producto %></td>
+                        <td><%= compra.cantidad %></td>
+                        <td><%= compra.total %></td>
+                    </tr>
+                <% }) %></tbody>
             </table>
         </div>
     </div>
     <div class="card-footer small text-muted">
-        Visualización Compras - Santos Licores
+        Historial Compras - Santos Licores
     </div>
 </div>
 <!-- Tabla -->
 
 <script>
   function mostrar() {
-    console.log("aqui toy");
-    var url = "http://localhost:3000/listarCompras";
+    const url = "http://localhost:3000/listarComprasUsuario"; // La ruta para obtener las compras del usuario autenticado
+
     $.ajax({
       url: url,
       type: "GET",
@@ -96,7 +93,7 @@
   }
 
   $(document).ready(function () {
-    mostrar();
+    mostrar(); // Mostrar datos al cargar la página
   });
 </script>
 

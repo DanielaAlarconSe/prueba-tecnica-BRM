@@ -24,7 +24,7 @@ module.exports = function (passport, cuenta, persona, rol) {
                     nombre: cuenta.persona.nombre + ' ' + cuenta.persona.apellido,
                     rol: cuenta.persona.rol.nombre
                 };
-//                console.log(usuarioInfo);
+               /// console.log(usuarioInfo);
                 done(null, usuarioInfo);
             } else {
                 //cuenta.errors.- Permite ver que errores hubo en la consulta

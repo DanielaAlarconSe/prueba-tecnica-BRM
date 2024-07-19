@@ -28,6 +28,24 @@ var auth = function middleware(req, res, next) {
     }
 };
 
+function authorizeRoles(allowedRoles) {
+    return (req, res, next) => {
+        if (req.isAuthenticated()) {
+            const userRole = req.user.rol;
+            if (allowedRoles.includes(userRole)) {
+                return next();
+            } else {
+                 // Asegúrate de que solo se envíe una respuesta
+                 if (!res.headersSent) {
+                    return res.redirect('/error');
+                }
+            }
+        } else {
+            req.flash('info', 'Se necesita primeramente iniciar sesión.');
+            return res.redirect('/ingresar');
+        }
+    };
+}
 
 // Página Principal
 /* GET Página Principal */
@@ -59,13 +77,13 @@ router.post('/registro', passport.authenticate('local-signup', {
 
 // Página Administración
 /* GET Página Administracion */
-router.get('/administracion', /*auth,*/ vinoController.cargarPrincipal);
+router.get('/administracion', vinoController.cargarPrincipal);
 
 /* GET Página Marca */
-router.get('/administracion/marca', marcaController.cargarVista);
+router.get('/administracion/marca', auth, authorizeRoles(['Administrador']), marcaController.cargarVista);
 
 /* POST Guardar Marca */
-router.post('/administracion/marca', marcaController.guardar);
+router.post('/administracion/marca', auth, authorizeRoles(['Administrador']), marcaController.guardar);
 
 /* POST Modificar Marca */
 router.post('/administracion/marcaModificar', marcaController.modificar);
@@ -77,20 +95,20 @@ router.get('/administracion/vino/foto/:external', vinoController.verFoto);
 router.post('/administracion/vino/foto/guardar', vinoController.guardarImagen);
 
 /* GET Página Vino */
-router.get('/administracion/vino', vinoController.cargarVista);
+router.get('/administracion/vino', auth, authorizeRoles(['Administrador']), vinoController.cargarVista);
 router.get('/administracion/ver_vino', vinoController.cargarVino);
 
 /* POST Guardar Vino */
-router.post('/administracion/vino', vinoController.guardar);
+router.post('/administracion/vino', auth, authorizeRoles(['Administrador']), vinoController.guardar);
 
 /* POST Modificar Vino */
-router.post('/administracion/vinoModificar', vinoController.modificar);
+router.post('/administracion/vinoModificar', auth, authorizeRoles(['Administrador']), vinoController.modificar);
 
 /* GET Agregar item al Carrito */
-router.get('/agregar:external_id', carritoController.cargarItem);
+router.get('/agregar:external_id', auth, authorizeRoles(['Usuario']), carritoController.cargarItem);
 
 /* GET Quitar Item del Carrito */
-router.get('/quitar:external_id', carritoController.quitarItem);
+router.get('/quitar:external_id', auth, authorizeRoles(['Usuario']), carritoController.quitarItem);
 
 /* GET Mostrar Carrito*/
 router.get('/listarCarrito', carritoController.mostrarCarro);
@@ -99,18 +117,23 @@ router.get('/listarCarrito', carritoController.mostrarCarro);
 router.get('/salir', autentificacion.logout);
 
 /* GET Comprar*/
-router.get('/comprar', pagoController.cargarVista);
+router.get('/comprar', auth, authorizeRoles(['Usuario']), pagoController.cargarVista);
 
 /* POST Comprar*/
-router.post('/comprar', ventaController.guardar);
+router.post('/comprar', auth, authorizeRoles(['Usuario']), ventaController.guardar);
 
 /* POST Checkout*/
-router.post('/pagar', pagoController.cargarCheckOut);
+router.post('/pagar', auth, authorizeRoles(['Usuario']), pagoController.cargarCheckOut);
 
 /* GET Payment Status*/
-router.get('/resultado', pagoController.obtenerResultado);
+router.get('/resultado', auth, authorizeRoles(['Usuario']), pagoController.obtenerResultado);
 
 /* GET Lista Compras*/
-router.get('/listarCompras', comprasController.listaCompras);
+router.get('/listarCompras', auth, authorizeRoles(['Administrador']), comprasController.listaCompras);
+
+/* GET Historial Compras Usuario*/
+router.get('/listarComprasUsuario', auth, authorizeRoles(['Usuario']), comprasController.listaComprasUsuario);
+
+router.get('/error');
 
 module.exports = router;
