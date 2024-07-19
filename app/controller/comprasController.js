@@ -1,46 +1,60 @@
 'use strict';
-var models = require('../models/index');
-var Venta = models.venta;
-var Persona = models.persona;
-var DetalleVino = models.detalle_vino;
-var Vino = models.vino; // Assuming you have a model for vino
+const models = require('../models/index');
+const Venta = models.venta;
+const Persona = models.persona;
+const DetalleVino = models.detalle_vino;
+const Vino = models.vino; 
 
 class ComprasController {
-    listaCompras(req, res) {
-        Venta.findAll({
-            include: [
-                {
-                    model: Persona,
-                    as: 'persona', // Alias should match the one defined in Persona's associations
-                    attributes: ['id', 'nombre', 'apellido', 'cedula']
-                },
-                {
-                    model: DetalleVino,
-                    as: 'detalle_vino', // Alias should match the one defined in Venta's associations
-                    include: [
-                        {
-                            model: Vino,
-                            as: 'vino', // Ensure this alias is correct
-                            attributes: ['nombre']
-                        }
-                    ]
-                }
-            ]
-        }).then(listaCompra => {
+
+    async listaCompras(req, res) {
+        try {
+            const listaCompra = await Venta.findAll({
+                
+                include: [
+                    {
+                        model: Persona,
+                        attributes: ['id', 'nombre', 'apellido', 'cedula']
+                    },
+                    {
+                        model: DetalleVino,
+                        include: [
+                            {
+                                model: Vino,
+                                attributes: ['nombre']
+                            }
+                        ]
+                    }
+                ]
+            });
+
             if (listaCompra) {
-                res.render('usuario', {
+                
+                const comprasData = listaCompra.flatMap(compra => 
+                    compra.detalle_vinos.map(detalle => ({
+                        fecha: compra.fecha,
+                        persona: compra.persona.nombre + ' ' + compra.persona.apellido,
+                        producto: detalle.vino.nombre,
+                        cantidad: detalle.cantidad,
+                        total: compra.total
+                    }))
+                );
+                console.log(comprasData, "---->>>");
+
+                res.render('administrador', {
                     titulo: 'Santos Licores | Compras',
                     fragmento: 'fragments/frm_compras',
-                    listaCompra: listaCompra
+                    listaCompra: comprasData
                 });
-                console.log(listaCompra, 'AQUI LLEGA LA LISTA DE COMPRA');
+
+                console.log(comprasData, 'AQUI LLEGA LA LISTA DE COMPRA');
             } else {
-                console.log(listaCompra.errors);
+                console.log('No se encontraron compras.');
             }
-        }).catch(error => {
+        } catch (error) {
             console.error('Error al obtener los datos de compras:', error);
             res.status(500).send('Error al obtener los datos de compras');
-        });
+        }
     }
 }
 

@@ -1,11 +1,13 @@
 <script>
   function mostrar() {
-    var url = "/listarCompras";
+    console.log("aqui toy");
+    var url = "http://localhost:3000/listarCompras";
     $.ajax({
       url: url,
       type: "GET",
       dataType: "json",
       success: function (data, textStatus, jqXHR) {
+        console.log(data , "dataaaa");
         cargarTabla(data);
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -18,17 +20,21 @@
     var tableBody = $("#tb");
     tableBody.empty(); // Limpia la tabla antes de llenarla
 
+    console.log("Datos recibidos:", data); // Imprime la data recibida en la consola
+
     data.forEach(function (compra) {
-      var row = `<tr>
-        <td>${compra.fecha}</td>
-        <td>${compra.persona.nombre}</td>
-        <td>${compra.detallesVino.map(detalle => detalle.vino.nombre).join(', ')}</td>
-        <td>${compra.detallesVino.map(detalle => detalle.cantidad).join(', ')}</td>
-        <td>${compra.total}</td>
-      </tr>`;
-      tableBody.append(row);
+        console.log("Compra:", compra); // Imprime cada compra en la consola
+
+        var row = `<tr>
+            <td>${compra.fecha}</td>
+            <td>${compra.persona.nombre}</td>
+            <td>${compra.detallesVino.map(detalle => detalle.vino.nombre).join(', ')}</td>
+            <td>${compra.detallesVino.map(detalle => detalle.cantidad).join(', ')}</td>
+            <td>${compra.total}</td>
+        </tr>`;
+        tableBody.append(row);
     });
-  }
+}
 
   $(document).ready(function () {
     mostrar();
@@ -43,36 +49,42 @@
 
 <!-- Tabla -->
 <div class="card mb-3">
-    <div class="card-header">
-        <i class="fas fa-shopping-cart"></i>
-        Visualización de compras</div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Fecha de compra</th>
-                        <th>Código de cliente</th>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio total</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>Fecha de compra</th>
-                        <th>Código de cliente</th>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio total</th>
-                    </tr>
-                </tfoot>
-                <tbody id="tb">
-                
-                </tbody>
-            </table>
-        </div>
+  <div class="card-header">
+    <i class="fas fa-shopping-cart"></i>
+    Visualización de compras
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table
+        class="table table-bordered"
+        id="dataTable"
+        width="100%"
+        cellspacing="0"
+      >
+        <thead>
+          <tr>
+            <th>Fecha de compra</th>
+            <th>Código de cliente</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio total</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th>Fecha de compra</th>
+            <th>Código de cliente</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio total</th>
+          </tr>
+        </tfoot>
+        <tbody id="tb"></tbody>
+      </table>
     </div>
-    <div class="card-footer small text-muted">Visualización Compras - Santos Licores</div>
+  </div>
+  <div class="card-footer small text-muted">
+    Visualización Compras - Santos Licores
+  </div>
 </div>
 <!-- Tabla -->
